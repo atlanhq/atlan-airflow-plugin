@@ -1,4 +1,5 @@
 import requests
+import json
 import time
 
 from requests import exceptions as requests_exceptions
@@ -56,6 +57,8 @@ class AtlanHook(BaseHook):
         if method not in self.ALLOWED_METHOD:
             raise AirflowException("HTTP Method not allowed")
 
+        json_payload = json.dumps(payload)
+
         req_attemp = 1
         while True:
             try:
@@ -90,7 +93,7 @@ class AtlanHook(BaseHook):
                     )
                 )
 
-            req_attemp = 1
+            req_attemp += 1
             time.sleep(self.retry_delay)
 
     def _logger(self, level, error):
