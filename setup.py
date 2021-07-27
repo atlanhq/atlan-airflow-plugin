@@ -1,7 +1,7 @@
 
 from setuptools import setup, find_packages
 
-requirements = ["requests", "apache-airflow>=1.10.0"]
+requirements = ["requests~=2.23.0", "apache-airflow>=1.10.0"]
 
 setup_requirements = []
 

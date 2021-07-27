@@ -10,8 +10,8 @@ class AtlanBmOperator(BaseOperator):
     :type asset_guid:         string
     :param bm:        BM to be attached to asset.
     :type bm:         dict
-    :param if_overwrite:        Weather to overwrite BM or not.
-    :type if_overwrite:         bool
+    :param overwrite:        Weather to overwrite BM or not.
+    :type overwrite:         bool
     """
 
     BM_ENDPOINT = "/api/metadata/atlas/tenants/default/entity/guid/{asset_guid}/businessmetadata?isOverwrite={overwrite}"
@@ -24,14 +24,14 @@ class AtlanBmOperator(BaseOperator):
         timeout: int = 30,
         asset_guid: str = None,
         bm: dict = None,
-        if_overwrite: bool = None,
+        overwrite: bool = None,
         **kwargs,
     ):
 
         super().__init__(**kwargs)
         self.asset_guid = asset_guid
         self.bm = bm
-        self.if_overwrite = if_overwrite
+        self.overwrite = overwrite
 
         self.atlan_conn_id = atlan_conn_id
         self.retry_limit = retry_limit
@@ -41,7 +41,7 @@ class AtlanBmOperator(BaseOperator):
     def execute(self, context):
 
         url = self.BM_ENDPOINT.format(
-            asset_guid=self.asset_guid, overwrite=self.if_overwrite
+            asset_guid=self.asset_guid, overwrite=self.overwrite
         )
 
         request_info = ("POST", url)

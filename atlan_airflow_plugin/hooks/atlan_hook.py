@@ -59,7 +59,7 @@ class AtlanHook(BaseHook):
 
         json_payload = json.dumps(payload)
 
-        req_attemp = 1
+        req_attempt = 1
         while True:
             try:
                 response = requests.request(
@@ -81,19 +81,19 @@ class AtlanHook(BaseHook):
 
                 self._logger(
                     "error",
-                    "Unable to connector to Atlan. Attempt: {} Error: {}, retrying....".format(
-                        req_attemp, e
+                    "Unable to connect to Atlan. Attempt: {} Error: {}, retrying....".format(
+                        req_attempt, e
                     ),
                 )
 
-            if req_attemp == self.retry_limit:
+            if req_attempt == self.retry_limit:
                 raise AirflowException(
                     "Unable to send API Request to Atlan. Tried {} times".format(
-                        attempts=req_attemp
+                        attempts=req_attempt
                     )
                 )
 
-            req_attemp += 1
+            req_attempt += 1
             time.sleep(self.retry_delay)
 
     def _logger(self, level, error):
