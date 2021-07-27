@@ -1,1 +1,1 @@
-from .bm_operator import AtlanBmOperator
+from .bm_operator import AtlanBMOperator

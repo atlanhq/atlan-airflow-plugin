@@ -2,7 +2,7 @@ from airflow.models import BaseOperator
 from atlan_airflow_plugin.hooks.atlan_hook import AtlanHook
 
 
-class AtlanBmOperator(BaseOperator):
+class AtlanBMOperator(BaseOperator):
 
     """
     Atlan BM Operator

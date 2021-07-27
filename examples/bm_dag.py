@@ -2,7 +2,7 @@ import airflow
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 
-from atlan_airflow_plugin.operators import AtlanBmOperator
+from atlan_airflow_plugin.operators import AtlanBMOperator
 
 args = {"owner": "Atlan Technologies Pvt Ltd", "start_date": airflow.utils.dates.days_ago(1)}
 
@@ -22,7 +22,7 @@ with dag:
 
     some_task = BashOperator(task_id="any_task", bash_command="echo Hello!")
 
-    push_bm = AtlanBmOperator(
+    push_bm = AtlanBMOperator(
         task_id="send_bm_to_atlan", asset_guid=guid, bm=bm, overwrite=True
     )
 

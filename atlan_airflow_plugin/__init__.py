@@ -2,14 +2,14 @@ from airflow.plugins_manager import AirflowPlugin
 import sys
 
 from .hooks.atlan_hook import AtlanHook
-from .operators.bm_operator import AtlanBmOperator
+from .operators.bm_operator import AtlanBMOperator
 
 plugin_name = "atlan"
 
 
 class AtlanPlugin(AirflowPlugin):
     name = plugin_name
-    operators = [AtlanBmOperator]
+    operators = [AtlanBMOperator]
     hooks = [AtlanHook]
     executors = []
     macros = []
