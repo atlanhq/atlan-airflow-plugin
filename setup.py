@@ -12,6 +12,8 @@ setup(
     author_email="eengineering@atlan.com",
     python_requires=">=3.5",
     classifiers=[
+        'Environment :: Plugins'
+        'License :: OSI Approved :: Apache Software License',
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
@@ -25,16 +27,10 @@ setup(
     install_requires=requirements,
     include_package_data=True,
     name="atlan-airflow-plugin",
-    packages=find_packages(
-        include=["atlan_airflow_plugin", "atlan_airflow_plugin.*"]
-    ),
+    packages=find_packages(),
     setup_requires=setup_requirements,
     url="https://github.com/atlanhq/atlan-airflow-plugin",
+    license='Apache License 2.0',
     version=__version__,
     zip_safe=False,
-    entry_points={
-        "airflow.plugins": [
-            "atlan = atlan_airflow_plugin.__init__:AtlanPlugin"
-        ]
-    },
 )
