@@ -86,7 +86,7 @@ class Backend(AtlasBackend):
             '{source_prefix}/{query_hash}/{granularity}/{iohash}'.format(source_prefix='airflow'
                 , query_hash='', granularity='table', iohash=iohash)
 
-        process = AtlanProcess(qualified_name=qualified_name, data=data)
+        process = AtlanProcess(name=qualified_name, data=data)
 
         atlan_process.append(process.as_dict())
 

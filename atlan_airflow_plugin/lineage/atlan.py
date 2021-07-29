@@ -5,6 +5,7 @@ import json
 from airflow.configuration import conf  # type: ignore
 from airflow.utils.log.logging_mixin import LoggingMixin  # type: ignore
 from atlan_airflow_plugin.lineage.backend import Backend
+from atlan_airflow_plugin.utils import check_exception
 
 logger = LoggingMixin().log
 
@@ -35,6 +36,9 @@ class AtlanBackend(Backend):
 
 def _send_bulk(data):
 
+    retry_limit = 5
+    retry_delay = 10
+
     try:
         _url = conf.get('atlan', 'url')
         _token = conf.get('atlan', 'token')
@@ -48,11 +52,26 @@ def _send_bulk(data):
 
     request_body = {'entities': data}
 
-    response = requests.request(method='POST', url=bulk_url, json=request_body,
-                                headers=_headers)
+    req_attempt = 1
+    while True:
+        try:
+            response = requests.request(method='POST', url=bulk_url,
+                    json=request_body, headers=_headers)
+            response.raise_for_status()
+            return
+        except requests_exceptions.RequestException as e:
+            if not check_exception(e):
+                raise Exception()('Failed to call Atlan API. Response: {}, Status Code: {}'.format(e.response.content,
+                                  e.response.status_code))
 
-    response.raise_for_status()
+            logger.error('Unable to connect to Atlan. Attempt: {} Error: {}, retrying....'.format(req_attempt,
+                         e))
+
+        if req_attempt == retry_limit:
+            raise Exception('Unable to send API Request to Atlan. Tried {} times'.format(attempts=req_attempt))
+
+        req_attempt += 1
+        time.sleep(retry_delay)
 
     if response is not None and not response.ok:
-        logger.error('Unable to create lineage. Response: {resp}'.format(
-                          resp=response.text))
+        logger.error('Unable to create lineage. Response: {resp}'.format(resp=response.text))

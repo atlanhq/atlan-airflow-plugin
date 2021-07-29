@@ -3,23 +3,10 @@ from jinja2 import Environment
 
 from airflow.lineage.datasets import *  # type: ignore # noqa: F401, F403
 from airflow.lineage.datasets import DataSet  # type: ignore
+from atlan_airflow_plugin.lineage.assets import AtlanAsset
 
 
-class Table(DataSet):
-
-    type_name = ''
-    attributes = ['name']
-
-    def __init__(
-        self,
-        name=None,
-        data=None,
-        **kwargs
-        ):
-        super(DataSet, self).__init__(name=name, data=data)
-
-
-class AtlanTable(Table):
+class AtlanTable(AtlanAsset):
 
     type_name = 'AtlanTable'
     attributes = ['name']
@@ -30,11 +17,10 @@ class AtlanTable(Table):
         data=None,
         **kwargs
         ):
-        super(Table, self).__init__(name=name, data=data)
+
+        super(AtlanAsset, self).__init__(name=name, data=data)
         if name:
             self._qualified_name = name
-
-    # TODO: change function name
 
     def as_nested_dict(self):
 
