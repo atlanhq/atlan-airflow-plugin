@@ -9,8 +9,8 @@ class AtlanProcess(AtlanAsset):
 
     def __init__(
         self,
-        name=None,
-        data=None,
+        name: str = None,
+        data: dict = None,
         **kwargs
         ):
 
