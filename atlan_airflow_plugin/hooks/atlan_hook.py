@@ -5,14 +5,7 @@ import time
 from requests import exceptions as requests_exceptions
 from airflow.exceptions import AirflowException
 from airflow.hooks.base_hook import BaseHook
-
-
-ERROR_STATUS_CODE = [
-    status_code
-    for status_code in range(400, 600)
-    if status_code not in [400, 403, 404, 401, 413, 501]
-]
-
+from atlan_airflow_plugin.utils import check_exception
 
 class AtlanHook(BaseHook):
 
@@ -72,7 +65,7 @@ class AtlanHook(BaseHook):
                 response.raise_for_status()
                 return response
             except requests_exceptions.RequestException as e:
-                if not _check_exception(e):
+                if not check_exception(e):
                     raise AirflowException(
                         "Failed to call Atlan API. Response: {}, Status Code: {}".format(
                             e.response.content, e.response.status_code
@@ -108,12 +101,3 @@ class AtlanHook(BaseHook):
             raise AirflowException("Unexpected logging level.")
 
         logger(error)
-
-
-def _check_exception(exception):
-    return isinstance(
-        exception, (requests_exceptions.ConnectionError, requests_exceptions.Timeout)
-    ) or (
-        exception.response is not None
-        and exception.response.status_code in ERROR_STATUS_CODE
-    )

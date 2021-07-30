@@ -1,0 +1,2 @@
+requests~=2.23.0
+apache-airflow>=1.10.0

@@ -1,5 +1,5 @@
 from airflow.models import BaseOperator
-from atlan_airflow_plugin.hooks.atlan_hook import AtlanHook
+from atlan_airflow_plugin.hooks import AtlanHook
 
 
 class AtlanBMOperator(BaseOperator):
