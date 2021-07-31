@@ -1,5 +1,4 @@
 import requests
-import json
 import time
 
 from requests import exceptions as requests_exceptions

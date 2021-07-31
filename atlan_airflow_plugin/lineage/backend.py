@@ -1,6 +1,6 @@
 from airflow.lineage.backend.atlas import AtlasBackend  # type: ignore
 import hashlib
-from typing import List, Dict
+from typing import List
 
 from airflow.utils.log.logging_mixin import LoggingMixin  # type: ignore
 from atlan_airflow_plugin.lineage.assets import AtlanProcess

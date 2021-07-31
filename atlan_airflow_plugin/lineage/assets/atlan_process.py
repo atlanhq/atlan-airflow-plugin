@@ -1,4 +1,6 @@
 from atlan_airflow_plugin.lineage.assets import AtlanAsset
+
+
 class AtlanProcess(AtlanAsset):
 
     type_name = 'AtlanProcess'

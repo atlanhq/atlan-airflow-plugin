@@ -1,6 +1,8 @@
 import six
 from jinja2 import Environment
+from typing import List
 from atlan_airflow_plugin.lineage.assets import AtlanAsset
+
 
 class AtlanTable(AtlanAsset):
 
@@ -12,7 +14,7 @@ class AtlanTable(AtlanAsset):
         name: str = None,
         data: dict = None,
         **kwargs
-        ):
+    ):
 
         super(AtlanAsset, self).__init__(name=name, data=data)
         if name:
@@ -42,7 +44,7 @@ class AtlanTable(AtlanAsset):
                 try:
                     attributes[key] = \
                         env.from_string(value).render(**self.context)
-                except Exception as e:
+                except Exception as e:  # noqa: F841
                     pass
 
         d = {'typeName': self.type_name, 'attributes': attributes}
