@@ -1,1 +1,1 @@
-from .bm_operator import AtlanBMOperator
+from .bm_operator import AtlanBMOperator   # noqa: F401

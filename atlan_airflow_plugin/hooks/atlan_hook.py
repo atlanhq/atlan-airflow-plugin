@@ -7,6 +7,7 @@ from airflow.exceptions import AirflowException
 from airflow.hooks.base_hook import BaseHook
 from atlan_airflow_plugin.utils import check_exception
 
+
 class AtlanHook(BaseHook):
 
     ALLOWED_METHOD = ["GET", "POST"]
@@ -28,7 +29,6 @@ class AtlanHook(BaseHook):
         self.retry_delay = retry_delay
 
     def call_api(self, request_info, payload=None):
-
         """
         Wrapper on top of Python requests client. It implements different auth methods.
         This wrapper also handles retries for failed requests.
@@ -49,8 +49,6 @@ class AtlanHook(BaseHook):
 
         if method not in self.ALLOWED_METHOD:
             raise AirflowException("HTTP Method not allowed")
-
-        json_payload = json.dumps(payload)
 
         req_attempt = 1
         while True:
@@ -81,7 +79,7 @@ class AtlanHook(BaseHook):
 
             if req_attempt == self.retry_limit:
                 raise AirflowException(
-                    "Unable to send API Request to Atlan. Tried {} times".format(
+                    "Unable to send API Request to Atlan. Tried {attempts} times".format(
                         attempts=req_attempt
                     )
                 )

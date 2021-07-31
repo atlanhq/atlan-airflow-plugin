@@ -1,10 +1,8 @@
 from airflow.lineage.backend.atlas import AtlasBackend  # type: ignore
-
 import hashlib
+from typing import List, Dict
 
 from airflow.utils.log.logging_mixin import LoggingMixin  # type: ignore
-from airflow.configuration import conf  # type: ignore
-
 from atlan_airflow_plugin.lineage.assets import AtlanProcess
 
 logger = LoggingMixin().log
@@ -12,13 +10,13 @@ logger = LoggingMixin().log
 
 class Backend(AtlasBackend):
 
-    @staticmethod
+    @staticmethod  # noqa: C901
     def create_lineage_meta(
         operator,
         inlets,
         outlets,
         context,
-        ):
+    ):
 
         # Creating input entities
 
@@ -32,16 +30,14 @@ class Backend(AtlasBackend):
                 entity.set_context(context)
                 try:
                     entity_dict = entity.as_nested_dict()
-                except Exception as e:
-
-                                        # noqa: F841
+                except Exception as e:  # noqa: F841
 
                     entity_dict = entity.as_dict()
 
                 inlet_list.append(entity_dict)
                 logger.info('Inlet Entity : {}'.format(entity.type_name))
                 inlet_ref_list.append({'typeName': entity.type_name,
-                        'uniqueAttributes': {'qualifiedName': entity.qualified_name}})
+                                       'uniqueAttributes': {'qualifiedName': entity.qualified_name}})
 
         # Creating output entities
 
@@ -55,9 +51,7 @@ class Backend(AtlasBackend):
                 entity.set_context(context)
                 try:
                     entity_dict = entity.as_nested_dict()
-                except Exception as e:
-
-                                        # noqa: F841
+                except Exception as e:  # noqa: F841
 
                     entity_dict = entity.as_dict()
 
@@ -65,7 +59,7 @@ class Backend(AtlasBackend):
 
                 outlet_list.append(entity_dict)
                 outlet_ref_list.append({'typeName': entity.type_name,
-                        'uniqueAttributes': {'qualifiedName': entity.qualified_name}})
+                                        'uniqueAttributes': {'qualifiedName': entity.qualified_name}})
 
         # Creating dag and operator entities
 
@@ -76,15 +70,13 @@ class Backend(AtlasBackend):
             'description': 'Lineage pushed from Airflow',
             'inputs': inlet_ref_list,
             'outputs': outlet_ref_list,
-            }
+        }
 
-        logger.info(inlet_ref_list)
         iostring = getIOhash(inlet_ref_list, outlet_ref_list)
         iohash = hashlib.sha224(iostring.encode()).hexdigest()
 
-        qualified_name = \
-            '{source_prefix}/{query_hash}/{granularity}/{iohash}'.format(source_prefix='airflow'
-                , query_hash='', granularity='table', iohash=iohash)
+        qualified_name = '{source_prefix}/{query_hash}/{granularity}/{iohash}'.format(
+            source_prefix='airflow', query_hash='', granularity='table', iohash=iohash)
 
         process = AtlanProcess(name=qualified_name, data=data)
 

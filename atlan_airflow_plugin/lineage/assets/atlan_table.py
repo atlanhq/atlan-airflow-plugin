@@ -1,10 +1,6 @@
 import six
 from jinja2 import Environment
-
-from airflow.lineage.datasets import *  # type: ignore # noqa: F401, F403
-from airflow.lineage.datasets import DataSet  # type: ignore
 from atlan_airflow_plugin.lineage.assets import AtlanAsset
-
 
 class AtlanTable(AtlanAsset):
 

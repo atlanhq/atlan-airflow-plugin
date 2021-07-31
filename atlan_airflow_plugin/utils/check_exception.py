@@ -6,6 +6,7 @@ ERROR_STATUS_CODE = [
     if status_code not in [400, 403, 404, 401, 413, 501]
 ]
 
+
 def check_exception(exception):
     return isinstance(exception, (requests_exceptions.ConnectionError,
                       requests_exceptions.Timeout)) \

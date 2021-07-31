@@ -1,8 +1,8 @@
 from airflow.configuration import conf  # type: ignore
+from requests import exceptions as requests_exceptions
 import requests
-import json
+import time
 
-from airflow.configuration import conf  # type: ignore
 from airflow.utils.log.logging_mixin import LoggingMixin  # type: ignore
 from atlan_airflow_plugin.lineage.backend import Backend
 from atlan_airflow_plugin.utils import check_exception
@@ -20,13 +20,13 @@ class AtlanBackend(Backend):
         inlets,
         outlets,
         context,
-        ):
+    ):
 
         # type: (object, list, list, dict) -> None
 
         (inlet_list, outlet_list, atlan_process) = \
             Backend.create_lineage_meta(operator, inlets, outlets,
-                context)
+                                        context)
 
         try:
             _send_bulk(data=atlan_process)
@@ -55,8 +55,7 @@ def _send_bulk(data):
     req_attempt = 1
     while True:
         try:
-            response = requests.request(method='POST', url=bulk_url,
-                    json=request_body, headers=_headers)
+            response = requests.request(method='POST', url=bulk_url, json=request_body, headers=_headers)
             response.raise_for_status()
             return
         except requests_exceptions.RequestException as e:
@@ -64,11 +63,12 @@ def _send_bulk(data):
                 raise Exception()('Failed to call Atlan API. Response: {}, Status Code: {}'.format(e.response.content,
                                   e.response.status_code))
 
-            logger.error('Unable to connect to Atlan. Attempt: {} Error: {}, retrying....'.format(req_attempt,
-                         e))
+            logger.error(
+                'Unable to connect to Atlan. Attempt: {attempts} Error: {error}, retrying....'.format(
+                    attempts=req_attempt, error=e))
 
         if req_attempt == retry_limit:
-            raise Exception('Unable to send API Request to Atlan. Tried {} times'.format(attempts=req_attempt))
+            raise Exception('Unable to send API Request to Atlan. Tried {attempts} times'.format(attempts=req_attempt))
 
         req_attempt += 1
         time.sleep(retry_delay)

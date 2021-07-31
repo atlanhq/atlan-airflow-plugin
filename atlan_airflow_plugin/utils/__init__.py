@@ -1,1 +1,1 @@
-from .check_exception import check_exception
+from .check_exception import check_exception   # noqa: F401

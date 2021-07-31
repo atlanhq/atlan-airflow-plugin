@@ -11,6 +11,6 @@ class AtlanAsset(DataSet):
         name: str = None,
         data: dict = None,
         **kwargs
-        ):
+    ):
 
         super(DataSet, self).__init__(name=name, data=data)
