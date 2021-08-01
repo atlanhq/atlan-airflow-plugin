@@ -1,6 +1,6 @@
 from airflow.configuration import conf  # type: ignore
 from requests import exceptions as requests_exceptions
-from typing import Dict, Any
+from typing import Dict, Any, List
 import requests
 import time
 
@@ -63,8 +63,9 @@ def _send_bulk(data):
             return
         except requests_exceptions.RequestException as e:
             if not check_exception(e):
-                raise Exception('Failed to call Atlan API. Response: {}, Status Code: {}'.format(e.response.content,
-                                  e.response.status_code))
+                raise Exception(
+                    'Failed to call Atlan API. Response: {}, Status Code: {}'.format(
+                        e.response.content, e.response.status_code))
 
             logger.error(
                 'Unable to connect to Atlan. Attempt: {attempts} Error: {error}, retrying....'.format(
