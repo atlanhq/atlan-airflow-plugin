@@ -37,7 +37,7 @@ class AtlanBackend(Backend):
 
 def _send_bulk(data):
 
-    # type: (Dict[str, Any]) -> None
+    # type: (List[Dict[Any, Any]]) -> None
 
     retry_limit = 5
     retry_delay = 10
@@ -63,7 +63,7 @@ def _send_bulk(data):
             return
         except requests_exceptions.RequestException as e:
             if not check_exception(e):
-                raise Exception()('Failed to call Atlan API. Response: {}, Status Code: {}'.format(e.response.content,
+                raise Exception('Failed to call Atlan API. Response: {}, Status Code: {}'.format(e.response.content,
                                   e.response.status_code))
 
             logger.error(
