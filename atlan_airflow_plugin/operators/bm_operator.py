@@ -36,7 +36,7 @@ class AtlanBMOperator(BaseOperator):
 
         self.atlan_conn_id = atlan_conn_id
         self.retry_limit = retry_limit
-        self.retry_delay = retry_delay
+        self.retry_delay = retry_delay  # type: ignore
         self.timeout = timeout
 
     def execute(self, context):
@@ -51,7 +51,7 @@ class AtlanBMOperator(BaseOperator):
         session = AtlanHook(
             atlan_conn_id=self.atlan_conn_id,
             retry_limit=self.retry_limit,
-            retry_delay=self.retry_delay,
+            retry_delay=self.retry_delay,  # type: ignore
             timeout=self.timeout,
         )
 

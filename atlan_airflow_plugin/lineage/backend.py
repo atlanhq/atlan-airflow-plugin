@@ -67,7 +67,7 @@ class Backend(AtlasBackend):
         atlan_process = []  # type: List[dict]
 
         data = {
-            'name': operator.task_id,
+            'name': operator.task_id,  # type: ignore
             'description': 'Lineage pushed from Airflow',
             'inputs': inlet_ref_list,
             'outputs': outlet_ref_list,
@@ -86,7 +86,7 @@ class Backend(AtlasBackend):
         return (inlet_list, outlet_list, atlan_process)
 
 
-def getIOhash(self, source, target):
+def getIOhash(source, target):
     # type: (List[Dict[Any, Any]], List[Dict[Any, Any]]) -> str
 
     (source_asset, target_asset) = ([], [])
