@@ -16,12 +16,12 @@ setup(
     description="An Airflow plugin to connect with Atlan",
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url="https://github.com/atlanhq/atlan-airflow-plugin",
+    url="https://atlan.com",
     author="Atlan Technologies Pvt Ltd",
     author_email="engineering@atlan.com",
     python_requires=">=3.5",
     classifiers=[
-        'Environment :: Plugins'
+        'Environment :: Plugins',
         'License :: OSI Approved :: Apache Software License',
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
