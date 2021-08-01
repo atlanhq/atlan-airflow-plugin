@@ -9,4 +9,4 @@ An Airflow plugin to push data to Atlan.
 
 ## Installation and usage
 
-A tutorial to configure and use this plugin is available on the [Atlan Community](https://community.atlan.com/9c55898ea0364eec92df949a719842ed) Page.
+A tutorial to configure and use this plugin is available on the [Atlan Community](https://community.atlan.com/9c55898ea0364eec92df949a719842ed) Page
