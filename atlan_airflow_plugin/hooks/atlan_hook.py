@@ -1,3 +1,5 @@
+from typing import Optional, Dict, Any, Union, Tuple
+from requests import Response
 import requests
 import time
 
@@ -28,6 +30,9 @@ class AtlanHook(BaseHook):
         self.retry_delay = retry_delay
 
     def call_api(self, request_info, payload=None):
+
+        # type: (Tuple[str, str], Optional[Dict[str, Any]]) -> Union[Response, None]
+
         """
         Wrapper on top of Python requests client. It implements different auth methods.
         This wrapper also handles retries for failed requests.
@@ -39,7 +44,6 @@ class AtlanHook(BaseHook):
             this function returns the response in JSON. Otherwise,
             we throw an AirflowException.
         """
-
         method, endpoint = request_info
 
         api_key = self.atlan_conn.password
@@ -87,6 +91,7 @@ class AtlanHook(BaseHook):
             time.sleep(self.retry_delay)
 
     def _logger(self, level, error):
+        # type: (str, str) -> None
 
         if level == "info":
             logger = self.log.info

@@ -1,4 +1,5 @@
 from requests import exceptions as requests_exceptions
+from typing import Any
 
 ERROR_STATUS_CODE = [
     status_code
@@ -8,6 +9,8 @@ ERROR_STATUS_CODE = [
 
 
 def check_exception(exception):
+    # type: (Any) -> bool
+
     return isinstance(exception, (requests_exceptions.ConnectionError,
                       requests_exceptions.Timeout)) \
         or exception.response is not None \

@@ -1,6 +1,6 @@
 import six
 from jinja2 import Environment
-from typing import List
+from typing import List, Any
 from atlan_airflow_plugin.lineage.assets import AtlanAsset
 
 
@@ -13,7 +13,7 @@ class AtlanTable(AtlanAsset):
         self,
         name: str = None,
         data: dict = None,
-        **kwargs
+        **kwargs: Any,
     ):
 
         super(AtlanAsset, self).__init__(name=name, data=data)

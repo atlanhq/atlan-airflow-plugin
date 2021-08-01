@@ -1,4 +1,5 @@
 from airflow.lineage.datasets import DataSet  # type: ignore
+from typing import Any
 
 
 class AtlanAsset(DataSet):
@@ -10,7 +11,7 @@ class AtlanAsset(DataSet):
         self,
         name: str = None,
         data: dict = None,
-        **kwargs
+        **kwargs: Any,
     ):
 
         super(DataSet, self).__init__(name=name, data=data)

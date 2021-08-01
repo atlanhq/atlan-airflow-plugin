@@ -1,5 +1,6 @@
 from airflow.configuration import conf  # type: ignore
 from requests import exceptions as requests_exceptions
+from typing import Dict, Any
 import requests
 import time
 
@@ -35,6 +36,8 @@ class AtlanBackend(Backend):
 
 
 def _send_bulk(data):
+
+    # type: (Dict[str, Any]) -> None
 
     retry_limit = 5
     retry_delay = 10

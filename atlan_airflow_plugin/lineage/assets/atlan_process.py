@@ -1,4 +1,5 @@
 from atlan_airflow_plugin.lineage.assets import AtlanAsset
+from typing import Any
 
 
 class AtlanProcess(AtlanAsset):
@@ -10,7 +11,7 @@ class AtlanProcess(AtlanAsset):
         self,
         name: str = None,
         data: dict = None,
-        **kwargs
+        **kwargs: Any,
     ):
 
         super(AtlanAsset, self).__init__(name=name, data=data)

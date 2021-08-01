@@ -1,6 +1,6 @@
 from airflow.lineage.backend.atlas import AtlasBackend  # type: ignore
 import hashlib
-from typing import List
+from typing import List, Tuple
 
 from airflow.utils.log.logging_mixin import LoggingMixin  # type: ignore
 from atlan_airflow_plugin.lineage.assets import AtlanProcess
@@ -18,6 +18,7 @@ class Backend(AtlasBackend):
         context,
     ):
 
+        # type: (object, list, list, dict) -> Tuple[List[dict], List[dict], List[dict]]
         # Creating input entities
 
         inlet_list = []  # type: List[dict]
@@ -85,7 +86,7 @@ class Backend(AtlasBackend):
         return (inlet_list, outlet_list, atlan_process)
 
 
-def getIOhash(source, target):
+def getIOhash(self, source: List, target: List) -> str:
     (source_asset, target_asset) = ([], [])
 
     for asset in source:

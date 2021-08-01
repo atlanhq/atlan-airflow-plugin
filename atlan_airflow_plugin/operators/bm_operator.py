@@ -1,3 +1,4 @@
+from typing import Any  # noqa: F401
 from airflow.models import BaseOperator
 from atlan_airflow_plugin.hooks import AtlanHook
 
@@ -25,7 +26,7 @@ class AtlanBMOperator(BaseOperator):
         asset_guid: str = None,
         bm: dict = None,
         overwrite: bool = None,
-        **kwargs,
+        **kwargs: Any,
     ):
 
         super().__init__(**kwargs)
@@ -39,6 +40,7 @@ class AtlanBMOperator(BaseOperator):
         self.timeout = timeout
 
     def execute(self, context):
+        # type: (Any) -> None
 
         url = self.BM_ENDPOINT.format(
             asset_guid=self.asset_guid, overwrite=self.overwrite
